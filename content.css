@@ -1,0 +1,77 @@
+/**
+ * YouTube Downloader Pro - Content Styles
+ * Styles for the injected download button
+ */
+
+/* Main download button */
+.yt-downloader-btn {
+  background: linear-gradient(135deg, #ff0000, #ff5e00);
+  color: white;
+  border: none;
+  border-radius: 18px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin: 0 8px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Glow effect */
+.yt-downloader-btn::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff0000, #ff7300, #ff0000);
+  z-index: -1;
+  filter: blur(10px);
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+  animation: glowing 2s infinite;
+  border-radius: 20px;
+}
+
+/* Hover effect */
+.yt-downloader-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+}
+
+.yt-downloader-btn:hover::before {
+  opacity: 1;
+}
+
+/* Active effect */
+.yt-downloader-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5);
+}
+
+/* Wrapper for the button when placed in YouTube's button container */
+.yt-downloader-btn-wrapper {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 8px;
+}
+
+/* Fallback wrapper for when the button is placed below the video player */
+.yt-downloader-btn-wrapper-fallback {
+  display: flex;
+  justify-content: center;
+  margin: 16px 0;
+}
+
+/* Glow animation */
+@keyframes glowing {
+  0% { opacity: 0.7; }
+  50% { opacity: 1; }
+  100% { opacity: 0.7; }
+}

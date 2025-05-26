@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "YouTube Downloader Pro",
+  "version": "1.0.0",
+  "description": "Download YouTube videos in MP4, MP3, or text format with high fidelity",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "downloads",
+    "identity",
+    "scripting",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "https://www.youtube.com/*",
+    "https://*.ytimg.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "sidepanel.html",
+    "default_title": "YouTube Downloader Pro"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.youtube.com/watch*"],
+      "js": ["content.js"],
+      "css": ["content.css"]
+    }
+  ],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["icons/*", "sidepanel.html", "sidepanel.js", "sidepanel.css", "stripe-checkout.html"],
+      "matches": ["https://www.youtube.com/*"]
+    }
+  ]
+}

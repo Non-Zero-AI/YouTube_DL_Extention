@@ -1,0 +1,37 @@
+{
+  "name": "youtube-downloader-pro",
+  "version": "1.0.0",
+  "description": "A Chrome extension for downloading YouTube videos in various formats with subscription-based premium features",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-icons": "node icons/create_icons.js",
+    "zip": "zip -r youtube-downloader-pro.zip . -x \"*.git*\" \"node_modules/*\" \"*.zip\" \"*.md\" \"LICENSE\"",
+    "build": "npm run build-icons && npm run zip"
+  },
+  "keywords": [
+    "chrome-extension",
+    "youtube",
+    "downloader",
+    "video",
+    "audio",
+    "mp4",
+    "mp3",
+    "text",
+    "transcription"
+  ],
+  "author": "YouTube Downloader Pro",
+  "license": "MIT",
+  "devDependencies": {
+    "canvas": "^2.11.0"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/youtube-downloader-pro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/youtube-downloader-pro/issues"
+  },
+  "homepage": "https://github.com/yourusername/youtube-downloader-pro#readme"
+}

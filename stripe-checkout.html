@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Downloader Pro - Checkout</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #333;
+    }
+    
+    .container {
+      max-width: 800px;
+      width: 100%;
+      padding: 40px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .header h1 {
+      color: #ff5e00;
+      margin-bottom: 10px;
+    }
+    
+    .header p {
+      color: #666;
+      font-size: 16px;
+    }
+    
+    .checkout-form {
+      margin-bottom: 30px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
+    
+    .card-element {
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: white;
+    }
+    
+    .order-summary {
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .order-summary h2 {
+      margin-top: 0;
+      font-size: 18px;
+      color: #333;
+    }
+    
+    .order-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .order-item:last-child {
+      border-bottom: none;
+    }
+    
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      padding-top: 15px;
+      margin-top: 15px;
+      border-top: 2px solid #ddd;
+      font-weight: bold;
+    }
+    
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #ff0000, #ff5e00);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .btn:hover {
+      background: linear-gradient(135deg, #e60000, #e65400);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:active {
+      transform: translateY(1px);
+    }
+    
+    .powered-by-stripe {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .powered-by-stripe img {
+      height: 24px;
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+    
+    .success-message {
+      text-align: center;
+      display: none;
+    }
+    
+    .success-message h2 {
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+    
+    .success-icon {
+      font-size: 64px;
+      color: #28a745;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>YouTube Downloader Pro</h1>
+      <p>Complete your subscription purchase</p>
+    </div>
+    
+    <div id="checkout-form" class="checkout-form">
+      <div class="order-summary">
+        <h2>Order Summary</h2>
+        <div class="order-item">
+          <div class="item-name" id="plan-name">YouTube Downloader Pro - Monthly Subscription</div>
+          <div class="item-price" id="plan-price">$5.00</div>
+        </div>
+        <div class="order-total">
+          <div>Total</div>
+          <div id="total-price">$5.00</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="name">Name on Card</label>
+        <input type="text" id="name" placeholder="John Smith" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="john@example.com" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="card-element">Credit or Debit Card</label>
+        <div class="card-element" id="card-element">
+          <!-- Stripe Card Element will be inserted here -->
+          <div style="padding: 10px; color: #666;">
+            4242 4242 4242 4242 - Exp: Any future date - CVC: Any 3 digits
+          </div>
+        </div>
+      </div>
+      
+      <button id="submit-button" class="btn">Subscribe Now</button>
+      
+      <div class="powered-by-stripe">
+        Powered by
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe">
+      </div>
+    </div>
+    
+    <div id="success-message" class="success-message">
+      <div class="success-icon">✓</div>
+      <h2>Payment Successful!</h2>
+      <p>Thank you for subscribing to YouTube Downloader Pro.</p>
+      <p>Your subscription is now active and you can enjoy unlimited downloads.</p>
+      <p>You will receive a confirmation email shortly.</p>
+      <button id="return-button" class="btn">Return to YouTube Downloader</button>
+    </div>
+  </div>
+  
+  <script>
+    // Get URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const plan = urlParams.get('plan') || 'monthly';
+    const email = urlParams.get('email') || '';
+    
+    // Set plan details
+    if (plan === 'yearly') {
+      document.getElementById('plan-name').textContent = 'YouTube Downloader Pro - Yearly Subscription';
+      document.getElementById('plan-price').textContent = '$20.00';
+      document.getElementById('total-price').textContent = '$20.00';
+    }
+    
+    // Set email if provided
+    if (email) {
+      document.getElementById('email').value = email;
+    }
+    
+    // Handle form submission
+    document.getElementById('submit-button').addEventListener('click', function() {
+      // Simulate payment processing
+      this.textContent = 'Processing...';
+      this.disabled = true;
+      
+      // Simulate a delay for processing
+      setTimeout(function() {
+        // Hide checkout form
+        document.getElementById('checkout-form').style.display = 'none';
+        
+        // Show success message
+        document.getElementById('success-message').style.display = 'block';
+      }, 2000);
+    });
+    
+    // Handle return button
+    document.getElementById('return-button').addEventListener('click', function() {
+      // In a real implementation, you would redirect to the extension
+      // For now, we'll just close the tab
+      window.close();
+    });
+  </script>
+</body>
+</html>
