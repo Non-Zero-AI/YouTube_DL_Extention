@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Downloader Pro</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>YouTube Downloader Pro</h1>
+    </div>
+    
+    <div class="content">
+      <div id="not-on-youtube" class="message-box">
+        <p>Please navigate to a YouTube video to use this extension.</p>
+      </div>
+      
+      <div id="on-youtube" class="action-box" style="display: none;">
+        <p>Click the Download button on the video to start downloading.</p>
+        <button id="open-side-panel" class="btn primary-btn">Open Download Panel</button>
+      </div>
+      
+      <div class="divider"></div>
+      
+      <div id="user-section">
+        <!-- Login form (shown when not logged in) -->
+        <div id="login-section" style="display: none;">
+          <h2>Login</h2>
+          <form id="login-form">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn primary-btn">Login</button>
+          </form>
+          <p class="text-center">
+            Don't have an account? <a href="#" id="show-signup">Sign up</a>
+          </p>
+        </div>
+        
+        <!-- Signup form (hidden by default) -->
+        <div id="signup-section" style="display: none;">
+          <h2>Create Account</h2>
+          <form id="signup-form">
+            <div class="form-group">
+              <label for="signup-email">Email</label>
+              <input type="email" id="signup-email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password</label>
+              <input type="password" id="signup-password" name="password" required>
+            </div>
+            <div class="form-group">
+              <label for="confirm-password">Confirm Password</label>
+              <input type="password" id="confirm-password" name="confirm-password" required>
+            </div>
+            <button type="submit" class="btn primary-btn">Sign Up</button>
+          </form>
+          <p class="text-center">
+            Already have an account? <a href="#" id="show-login">Login</a>
+          </p>
+        </div>
+        
+        <!-- User info (shown when logged in) -->
+        <div id="user-info" style="display: none;">
+          <h2>Account</h2>
+          <div class="user-details">
+            <p><strong>Email:</strong> <span id="user-email"></span></p>
+            <p><strong>Plan:</strong> <span id="user-plan">Free</span></p>
+            <p id="downloads-remaining-container"><strong>Downloads Remaining:</strong> <span id="downloads-remaining">5</span></p>
+            <p id="subscription-container" style="display: none;"><strong>Subscription:</strong> <span id="subscription-info"></span></p>
+            <p id="promo-code-container" style="display: none;"><strong>Promo Code:</strong> <span id="promo-code-info"></span></p>
+          </div>
+          
+          <div class="action-buttons">
+            <button id="manage-subscription" class="btn secondary-btn">Manage Subscription</button>
+            <button id="redeem-code" class="btn secondary-btn">Redeem Promo Code</button>
+            <button id="logout" class="btn danger-btn">Logout</button>
+          </div>
+        </div>
+        
+        <!-- Subscription section (hidden by default) -->
+        <div id="subscription-section" style="display: none;">
+          <h2>Choose a Plan</h2>
+          <div class="subscription-options">
+            <div class="subscription-card">
+              <h3>Monthly</h3>
+              <p class="price">$5/month</p>
+              <ul>
+                <li>Unlimited downloads</li>
+                <li>High quality video & audio</li>
+                <li>Text transcription</li>
+                <li>Cancel anytime</li>
+              </ul>
+              <button class="btn primary-btn" data-plan="monthly">Subscribe</button>
+            </div>
+            <div class="subscription-card recommended">
+              <div class="badge">Best Value</div>
+              <h3>Yearly</h3>
+              <p class="price">$20/year</p>
+              <p class="savings">Save $40 (67%)</p>
+              <ul>
+                <li>Unlimited downloads</li>
+                <li>High quality video & audio</li>
+                <li>Text transcription</li>
+                <li>Priority support</li>
+              </ul>
+              <button class="btn primary-btn" data-plan="yearly">Subscribe</button>
+            </div>
+          </div>
+          <button id="back-to-account" class="btn text-btn">Back to Account</button>
+        </div>
+        
+        <!-- Promo code section (hidden by default) -->
+        <div id="promo-code-section" style="display: none;">
+          <h2>Redeem Promo Code</h2>
+          <form id="promo-code-form">
+            <div class="form-group">
+              <label for="promo-code">Enter Promo Code</label>
+              <input type="text" id="promo-code" name="promo-code" required>
+            </div>
+            <button type="submit" class="btn primary-btn">Redeem</button>
+          </form>
+          <button id="back-from-promo" class="btn text-btn">Back to Account</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>© 2025 YouTube Downloader Pro</p>
+    </div>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>
