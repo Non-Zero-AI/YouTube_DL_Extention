@@ -173,38 +173,38 @@ async function handleLogin(email, password) {
     // });
     // const data = await response.json();
     
-    // Simulate successful login
-    const data = {
-      success: true,
-      user: {
-        email: email,
-        subscription: null, // No subscription by default
-        downloadCount: 0,
-        isAdmin: email === 'admin@example.com' // Simple admin check
-      }
-    };
-    
-    if (data.success) {
+    // Simulate specific credentials
+    if (email === 'user@example.com' && password === 'password123') {
       userData = {
         isLoggedIn: true,
-        email: data.user.email,
-        subscription: data.user.subscription,
-        downloadCount: data.user.downloadCount || 0,
-        isAdmin: data.user.isAdmin || false,
-        promoCodeUsed: userData.promoCodeUsed,
-        promoCodeExpiry: userData.promoCodeExpiry
+        email: email,
+        subscription: null,
+        downloadCount: 0,
+        isAdmin: false,
+        promoCodeUsed: null,
+        promoCodeExpiry: null
       };
-      
-      // Save to storage
       await chrome.storage.local.set({ userData });
-      
+      return { success: true, userData };
+    } else if (email === 'admin@example.com' && password === 'adminpass') {
+      userData = {
+        isLoggedIn: true,
+        email: email,
+        subscription: { plan: 'yearly', startDate: new Date().toISOString(), endDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString() }, // Admin gets a free yearly plan
+        downloadCount: 0,
+        isAdmin: true,
+        promoCodeUsed: null,
+        promoCodeExpiry: null
+      };
+      await chrome.storage.local.set({ userData });
       return { success: true, userData };
     } else {
-      return { success: false, error: data.error || 'Login failed' };
+      return { success: false, error: 'Invalid email or password.' };
     }
   } catch (error) {
     console.error('Login error:', error);
-    throw new Error('Login failed. Please try again.');
+    // The throw will be caught by the onMessage listener which sends back { success: false, error: error.message }
+    throw new Error('An unexpected error occurred during login.');
   }
 }
 
@@ -213,37 +213,40 @@ async function handleLogin(email, password) {
  */
 async function handleSignup(email, password) {
   try {
-    // Create user data
+    // Simulate existing user check
+    if (email === 'existing@example.com') {
+      return { success: false, error: 'User already exists with this email.' };
+    }
+
+    // Create user data (simulated)
     const newUser = {
       email: email,
       subscription: null,
       downloadCount: 0,
-      isAdmin: email === 'admin@example.com', // Simple admin check
+      isAdmin: false, // Regular users are not admins by default
       createdAt: new Date().toISOString()
     };
     
-    // Send customer details to webhook
+    // Simulate sending customer details to a webhook (optional, keep if needed for flow)
     try {
       const webhookResponse = await fetch(WEBHOOK_SIGNUP, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: email,
-          password: password, // In production, this should be hashed
+          // password: password, // Avoid sending plain password if possible, even to a webhook
           isAdmin: newUser.isAdmin,
           createdAt: newUser.createdAt
         })
       });
-      
       if (!webhookResponse.ok) {
-        console.error('Webhook failed:', webhookResponse.status);
+        console.warn('Webhook for signup failed:', webhookResponse.status);
       }
     } catch (webhookError) {
-      console.error('Webhook error:', webhookError);
-      // Continue with signup even if webhook fails
+      console.warn('Webhook error during signup:', webhookError);
     }
     
-    // Update local user data
+    // Update local user data state
     userData = {
       isLoggedIn: true,
       email: newUser.email,
@@ -260,7 +263,8 @@ async function handleSignup(email, password) {
     return { success: true, userData };
   } catch (error) {
     console.error('Signup error:', error);
-    throw new Error('Signup failed. Please try again.');
+    // The throw will be caught by the onMessage listener
+    throw new Error('An unexpected error occurred during signup.');
   }
 }
 
@@ -286,7 +290,7 @@ async function handleLogout() {
     return { success: true };
   } catch (error) {
     console.error('Logout error:', error);
-    throw new Error('Logout failed. Please try again.');
+    throw new Error('An unexpected error occurred during logout. Please try again.');
   }
 }
 
@@ -358,7 +362,7 @@ async function handlePurchaseSubscription(plan) {
     return { success: true, message: 'Redirecting to Stripe checkout...' };
   } catch (error) {
     console.error('Purchase error:', error);
-    throw new Error('Purchase failed. Please try again.');
+    throw new Error('An unexpected error occurred while processing the purchase. Please try again.');
   }
 }
 
@@ -401,7 +405,7 @@ async function handleRedeemPromoCode(code) {
     }
   } catch (error) {
     console.error('Promo code error:', error);
-    throw new Error('Failed to redeem promo code. Please try again.');
+    throw new Error('An unexpected error occurred while redeeming the promo code. Please try again.');
   }
 }
 
@@ -459,12 +463,12 @@ async function handleDownload(request) {
     
     return { 
       success: true, 
-      message: `Download started for ${filename}`,
-      // downloadId: downloadId
+      message: `Simulating download for ${filename}. Actual download functionality requires backend integration.`,
+      // downloadId: downloadId // This would be relevant in a real download
     };
   } catch (error) {
     console.error('Download error:', error);
-    throw new Error('Download failed. Please try again.');
+    throw new Error('An unexpected error occurred during the download simulation. Please try again.');
   }
 }
 

@@ -5,9 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YouTube Downloader Chrome Extension UI</title>
     <link rel="stylesheet" href="sidepanel.css">
-    <script type="module" src="sidepanel.js"></script>
   </head>
   <body>
+    <!-- Placeholders for video information -->
+    <div id="video-info-placeholders" style="padding: 10px; background-color: #f0f0f0; border-bottom: 1px solid #ccc;">
+      <h2>Video Information (Placeholder)</h2>
+      <h3 id="video-title-placeholder">Title: Loading...</h3>
+      <p id="video-id-placeholder">ID: Loading...</p>
+      <p id="video-url-placeholder">URL: Loading...</p>
+    </div>
+
+    <div id="download-disclaimer" style="padding: 10px; background-color: #fffbe6; border-bottom: 1px solid #ccc; text-align: center; font-size: 0.9em; color: #573a08;">
+      <p><strong>Note:</strong> Download functionality is currently simulated. No actual files will be downloaded. This feature requires backend integration.</p>
+    </div>
+
     <div id="root"></div>
+
+    <!-- Script to load video info into placeholders -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        if (chrome.storage && chrome.storage.session) {
+          chrome.storage.session.get('currentVideo', (result) => {
+            const videoInfoPlaceholder = document.getElementById('video-info-placeholders');
+            const titleElement = document.getElementById('video-title-placeholder');
+            const idElement = document.getElementById('video-id-placeholder');
+            const urlElement = document.getElementById('video-url-placeholder');
+
+            if (result.currentVideo) {
+              if (videoInfoPlaceholder) videoInfoPlaceholder.style.backgroundColor = '#e0ffe0'; // Greenish background on success
+              if (titleElement) titleElement.textContent = 'Title: ' + result.currentVideo.title;
+              if (idElement) idElement.textContent = 'ID: ' + result.currentVideo.id;
+              if (urlElement) urlElement.textContent = 'URL: ' + result.currentVideo.url;
+            } else {
+              if (videoInfoPlaceholder) videoInfoPlaceholder.style.backgroundColor = '#ffe0e0'; // Reddish background on error/no data
+              if (titleElement) titleElement.textContent = 'Title: No video data found in session.';
+              if (idElement) idElement.textContent = 'ID: ---';
+              if (urlElement) urlElement.textContent = 'URL: ---';
+              console.warn('currentVideo data not found in chrome.storage.session');
+            }
+          });
+        } else {
+          const videoInfoPlaceholder = document.getElementById('video-info-placeholders');
+          if (videoInfoPlaceholder) videoInfoPlaceholder.style.backgroundColor = '#ffffe0'; // Yellowish for API missing
+          const titleElement = document.getElementById('video-title-placeholder');
+          if (titleElement) titleElement.textContent = 'Title: chrome.storage.session API not available.';
+          console.error('chrome.storage.session API is not available.');
+        }
+      });
+    </script>
+    <script type="module" src="sidepanel.js"></script>
   </body>
 </html>

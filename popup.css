@@ -9,9 +9,15 @@
   box-sizing: border-box;
 }
 
+html, body {
+  width: 350px;
+  min-width: 350px;
+}
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 14px;
+  overflow-x: hidden;
   color: #333;
   background-color: #f9f9f9;
 }
@@ -21,6 +27,15 @@ body {
   min-height: 400px;
   display: flex;
   flex-direction: column;
+}
+
+/* Error messages */
+.error-message {
+  color: #dc3545; /* Bootstrap's danger color */
+  font-size: 0.9em;
+  margin-top: 5px;
+  margin-bottom: 10px; /* Ensure it has some space if used in forms */
+  text-align: center; /* Center error messages */
 }
 
 /* Header */

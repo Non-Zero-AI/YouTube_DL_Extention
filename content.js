@@ -60,32 +60,60 @@ function injectDownloadButton(forceFallback = false) {
     }, function(response) {
       console.log('Side panel open response:', response);
       if (!response || !response.success) {
-        console.error('Failed to open side panel');
-        alert('Could not open the download panel. Please try again.');
+        const errorMessage = (response && response.error) ? response.error : 'Please try again.';
+        console.error('Failed to open side panel:', errorMessage);
+        alert(`Could not open the download panel: ${errorMessage}`);
       }
     });
   });
 
-  // Try to find the like/dislike button container
+  // Try to find the YouTube action buttons menu container
   if (!forceFallback) {
-    const targetContainer = document.querySelector('#top-level-buttons-computed');
+    // New primary selector: targets the menu bar containing like/dislike, share, etc.
+    const targetContainer = document.querySelector('div#menu.ytd-watch-metadata');
     if (targetContainer) {
       const wrapper = document.createElement('div');
       wrapper.className = 'yt-downloader-btn-wrapper';
+      // Prepending might be better to make it more prominent or avoid issues with YouTube adding new buttons at the end.
+      // Or, append if that looks more natural. Let's try appending first.
       wrapper.appendChild(downloadBtn);
-      targetContainer.appendChild(wrapper);
+      targetContainer.appendChild(wrapper); // Appending to the menu container
+      return true;
+    }
+    // Secondary attempt for primary target, using the old selector as a fallback before the main fallback
+    const oldTargetContainer = document.querySelector('#top-level-buttons-computed');
+    if (oldTargetContainer) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'yt-downloader-btn-wrapper';
+      wrapper.appendChild(downloadBtn);
+      oldTargetContainer.appendChild(wrapper);
       return true;
     }
   }
-  // Fallback: Insert below the video player
-  const player = document.querySelector('#player');
-  if (player) {
+  // Fallback strategy:
+  // 1. Try to insert before the comments section.
+  // 2. If comments section not found, try to insert after the player.
+
+  const commentsSection = document.querySelector('#comments');
+  if (commentsSection) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'yt-downloader-btn-wrapper-fallback'; // Use fallback styling
+    wrapper.appendChild(downloadBtn);
+    commentsSection.parentNode.insertBefore(wrapper, commentsSection);
+    return true;
+  }
+
+  // Original fallback: Insert below the video player if comments not found
+  const playerContainer = document.querySelector('#player'); // Existing fallback selector
+  if (playerContainer) {
     const wrapper = document.createElement('div');
     wrapper.className = 'yt-downloader-btn-wrapper-fallback';
     wrapper.appendChild(downloadBtn);
-    player.parentNode.insertBefore(wrapper, player.nextSibling);
+    // Insert outside the player, typically after it or its immediate container.
+    playerContainer.parentNode.insertBefore(wrapper, playerContainer.nextSibling);
     return true;
   }
+
   return false;
 }
 
